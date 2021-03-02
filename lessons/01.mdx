@@ -10,7 +10,7 @@ export const theme = { ...themes.highlight }
 </Head>
 
 <Header>
-  <div className="tC m8">SofaScore Academy 2020.</div>
+  <div className="tC m8">SofaScore Academy 2021.</div>
 </Header>
 
 <Footer>
@@ -31,10 +31,17 @@ export const theme = { ...themes.highlight }
 - "Visible" part of the web application
 - Part that the end user sees and interacts with
 - Runs in Web browser
+- Technologies: HTML, CSS, JavaScript
+
+<Notes>
+
+- Term "frontend" can also have more abstract meaning -> it could represent any device or an application which displays UI (e.g. Android or iOS application)
+
+</Notes>
 
 ---
 
-# Server - Client Architecture
+# Client - Server Architecture
 
 import serverClient from './images/serverClient.png'
 
@@ -42,7 +49,8 @@ import serverClient from './images/serverClient.png'
 
 <Notes>
 
-- Server programming is also called backend
+- Core architecture of a Web
+- Server programming is also called "backend"
 - Client programming (for Web Clients) is called frontend
 
 </Notes>
@@ -56,7 +64,340 @@ import serverClient from './images/serverClient.png'
 
 <Notes>
 
-- [Market share (February 2020)](https://gs.statcounter.com/browser-market-share): Chrome - 64.5%, Safari - 17.6%, Firefox - 4.6%
-- Display is generic term to encapsulate more complex browser phases (next slide)
+- [Market share (February 2021)](https://gs.statcounter.com/browser-market-share): Chrome - 63.9%, Safari - 19.1%, Firefox - 3.76%
+- Display is generic term to encapsulate more complex browser phases
+
+</Notes>
+
+---
+
+# Browser flow
+
+import browserFlow from './images/browserFlow.png'
+
+<img className="big-image" src={browserFlow} />
+
+<Notes>
+
+- Process starts when user enters URL to a web page / web application.
+  - Browser need to locate IP address of a server (DNS lookup) to navigate user correctly
+- Once user connects to the server, browser will automatically request server (via HTTP GET request) for `index.html` document.
+- Browser then parses (reads) document and searches for additional documents needed for a page to be displayed correctly.
+  - Those documents could be: CSS style sheets, JavaScript scripts, images, etc.
+- All required documents will be requested by browser (again via HTTP GET requests).
+- When browser has all resources needed it will start building the page. Browser used DOM (Document Object Model) to represet HTML structure.
+  - Page building is 4 step process which is out of the scope of this lecture, but feel free to dig deeper if it sounds interesting.
+    More information can be found [here](https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work#render).
+
+</Notes>
+
+---
+
+# HTML
+
+- **H**yper**T**ext **M**arkup **L**anguage
+- Created by Tim Berners-Lee to enable document sharing (text based -> links, headings, paragraphs)
+- HTML tells browser how to display content
+- HTML 5 is the latest specification (each version brings new tags and deprecates others) -> W3C
+
+<Notes>
+
+- HyperText -> text with references to other pages (links)
+- Markup -> standardized set of notations (tags and attributes)
+- Language -> not programming language (it's more of a representation or format)
+- [W3C reference](https://www.w3schools.com/html/default.asp)
+
+</Notes>
+
+---
+
+# HTML Structure
+
+- **HTML Element: Tag + Attribute(s) + Content**
+  - Tag: identifies element (`html`, `body`, `b`, `div`, `span`)
+  - Attribute: specifies properties of an element (e.g. styling, source for an image, ...)
+  - Content: displayed to user (text, other elements, ...)
+- `<b>This is bold text</b>`
+- `<div id="atribute_example">Text and/or other element(s)</div>`
+- `<img src="path_to_image" alt="Text if image fails to load" />`
+
+<Notes>
+
+- HTML elements have 3 distinct parts
+  1. Tag: identifier of an element - browser recognizes elements and know their specifics (e.g. `b` tag means bold).
+     There are 3 types of tags (opening tag - `<div>`, closing tag `</div>`, self closing tag `<img />`)
+  2. Attribute: elements can have attributes which define specific behaviour or a styling for the element (e.g. image source, element ID, ...).
+     Attributes are not required if not needed.
+  3. Content - Part of the element between opening and closing tag. Content can be any text, number, HTML element, etc.
+     Some elements don't have content (mostly self closing tags, such as `img`, `hr`)
+
+</Notes>
+
+---
+
+# HTML Code sample
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SofaScore Frontend Academy</title>
+  </head>
+
+  <body>
+    <p>Hello!</p>
+  </body>
+</html>
+```
+
+- **HTML relations:**
+  - Parent - Child
+  - Siblings
+
+<Notes>
+
+- Each HTML document has `html`, `body`, `head` tags.
+- Parent - Child - Child is content of a parent -> `html` is parent for `head` and `body`, `head` is parent for `title`, etc.
+- Siblings - Siblings have same direct parent -> `head` and `body` are siblings
+
+</Notes>
+
+---
+
+<Invert>
+
+# HTML Examples
+
+</Invert>
+
+---
+
+# CSS
+
+- **C**ascading **S**tyle **S**heets
+- How HTML elements are displayed on device
+- CSS3 specification
+- `cssProperty: valueOfProperty;`
+- `color: blue;`
+
+<Notes>
+
+- Cascading -> styles cascade (apply to lower levels) if not overridden
+- Style Sheets -> suggests separate CSS file(s), but CSS could also be inline, or embedded in `style` tag
+- `color` is property, `blue` is value, don't forget the semicolon (if omitted it would merge with next line and then both lines would be invalid and not applied)
+
+</Notes>
+
+---
+
+# CSS Selectors
+
+CSS defines styles and can be applied to single element, or to the group of elements
+
+- Inline styling - for single element
+  - `<p style="color:blue;">Text</p>`
+- Style all elements with the same tag
+  - `h2 { text-transform: uppercase; }`
+- Style all elements with the same `class` attribute set to `className`
+  - `.className { background-color: tomato; }`
+- Style all elements with the same `id` attribute
+  - `#uniqueId { text-align: center; }`
+- Selectors can be mixed
+  - `h2.specialHeading { padding: 8px; }`
+  - `h2 .specialHeading { margin: 16px 8px; }`
+- Universal selector (`*`), Grouping selector (`div, p { ... }`)
+- Specificity: Inline style > Id Styling > Class styling > Tag styling
+
+<Notes>
+
+- Selecting tags could be useful for resetting default browser styling (i.e. `ul` elements)
+- Classes are most common CSS selectors -> allow to style all elements with the same class. Same element can have multiple classes (e.g. `<div class="big blue rounded" />`)
+- Id selectors are used sparingly. to style unique elements
+- Id attributes should be unique for each element and should appear only once on each page.
+  Plural form of the sentence is used because it would work on multiple elements with the same `id`, but this is an anti-pattern and should be avoided.
+- Mixing selectors is useful when certain styles need to be applied only in specific context (e.g. styling inputs in forms differently)
+- [CSS Specificity](https://www.w3schools.com/css/css_specificity.asp)
+
+</Notes>
+
+---
+
+# Adding CSS to HTML
+
+- `<link rel="stylesheet" type="text/css" href="myStyleSheet.css">`
+
+- embedded in `<style></style>` element
+
+- directly on element
+
+<Notes>
+
+- When adding multiple style sheets, they are applied in order they are linked.
+  Common mistake is thinking that styles are applied based on their order on element.
+  It's actually their link order and order in file where they are defined. This all applies for the same level of selector (e.g. classes)\
+
+- Common pattern is to separate styles from HTML markup, so separate CSS files are usually way to go.
+
+</Notes>
+
+---
+
+<Invert>
+
+# Basic CSS Examples
+
+</Invert>
+
+---
+
+# CSS Box Model
+
+- Each element is a box defined with `x`, `y`, `width` and `height`,
+- Content can be distributed in the box with `padding`
+- Box can be spaced form other boxes with `margin`
+- Box can be made visible with `border`
+- `box-sizing` property changes how browser calculates size of the element
+  - e.g. margin included or excluded from the `width`
+
+<Notes>
+
+- `x` and `y` mark the top left edge of the box
+- `width` and `height` are applied to content part of the box
+- `padding` is used to space and style elements inside the box (Content!)
+- `margin` is used to define spacings between adjacent boxes (e.g. spacing between sibling elements)
+- `border` draws line on the edge of the box
+- `box-model` defines where the edge of the box is (e.g. before or after `margin` part of the box)
+- (Box Model extra)[https://www.w3schools.com/css/css_boxmodel.asp]
+
+</Notes>
+
+---
+
+# CSS Box Model - Ilustration
+
+import boxModel from './images/boxModel.png'
+
+<img className="big-image" src={boxModel} />
+
+<Notes>
+
+- Default `box-sizing` is `content-box`, which includes only content.
+- Sometimes `border-box` is more useful (includes content, padding and border). This is often used for layout purposes.
+
+</Notes>
+
+---
+
+<Invert>
+
+# CSS Box Model Example
+
+</Invert>
+
+---
+
+# CSS Display properties
+
+- Display property is used to specify how should element behave in the parent element.
+- Elements have default display properties defined in HTML specification
+- Common display properties:
+  - `block` - Element will take as much space as possible in the single row
+    - no two block elements in the same row
+    - e.g. `div`, `ul`, `main`, `p`
+  - `inline` - Element will use minimal width needed
+    - ignores width and height set
+    - possible multiple elements in the same row
+    - e.g. `span`, `b`
+  - `inline-block` - inline element which doesn't ignore width and hight set
+    - e.g. `img`
+  - `none` - removes element from screen
+  - `grid`, `table`, **`flex`**
+
+<Notes>
+
+- Display properties determine page layout and tells browser what to do with extra space in the row.
+
+</Notes>
+
+---
+
+# Flexbox - display: flex;
+
+- Displays element as block level container - element will remain the same, children will be changed
+- Applies flexible width (or height) and positioning to children
+- Aligns children on defined axis (row, column)
+- Children positioning can be specified (align all with start, center or end of the parent container)
+- If children take more space then available - define wrapping
+- If children take less space then available - define layout
+
+<Notes>
+
+- [W3C - Schools](https://www.w3schools.com/css/css3_flexbox.asp)
+- [Flexbox Froggy game](https://flexboxfroggy.com/)
+- [CSS tricks - Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+
+</Notes>
+
+---
+
+<Invert>
+
+# FlexBox Example
+
+</Invert>
+
+---
+
+# CSS Position properties
+
+- Type of positioning used for an element
+- Used to define how should element be positioned based on its `top`, `bottom`, `left` and `right`, properties
+- `z-index` - tells browser how to display overlapping elements (higher number first)
+- Common position properties:
+  - `static` - ignore position properties
+    - default value
+  - `relative` -> position element relative to element's normal position (`top`, `left`, ...)
+  - `fixed` -> positions element relative to a screen (**not** content on the screen)
+    - stays on the same place when page is scrolled
+  - `absolute` -> positions element relative to nearest positioned ancestor (not `static`)
+    - used to position element inside other element
+
+<Notes>
+
+- `z-index` - common for overlapping elements, if not preset, first element will be on top
+- `fixed` -> relative to a screen as hardware, previously used for page navbars, not sticky is more common
+- positioned ancestor -> any element with position property different then `static` (default)
+- `absolute` -> commonly used with `relative` parent, `z-index` property changes if elements are before or after
+- `sticky` is new position property, it's positioning depends on scroll position, alternates between absolute and fixed
+- [More on positioning](https://www.w3schools.com/css/css_positioning.asp)
+
+</Notes>
+
+---
+
+<Invert>
+
+# Position and Transition Example
+
+</Invert>
+
+<Notes>
+
+- CSS transitions allow smooth transition between properties, e.g. color change from red to blue will be gradual and not instant.
+
+</Notes>
+
+---
+
+# CSS Media
+
+- Allow different style rules for different device capabilities (resolution, orientation)
+- Responsive design -> different styles for different resolutions
+- `@media screen and (min-width: 400px) { ...will apply styles only on screens wider than 400px }`
+
+<Notes>
+
+- Today developers take mobile first approach -> first they write CSS for smaller screens,
+  then they add media queries to modify styles for wider devices, as more users today has mobile phones and similar smaller devices.
 
 </Notes>
