@@ -1,0 +1,62 @@
+import { themes, Head, Footer, Header, Steps, Notes, Invert } from 'mdx-deck'
+import './styles.css'
+
+export const theme = { ...themes.highlight }
+
+<!-- general markup for all slides -->
+
+<Head>
+  <title>SofaScore Academy 1</title>
+</Head>
+
+<Header>
+  <div className="tC m8">SofaScore Academy 2020.</div>
+</Header>
+
+<Footer>
+  {' '}
+  <div className="tR m8">Lesson 1 - Frontend, Browser, HTML, CSS</div>
+</Footer>
+
+<!-- Slide 0 -->
+
+# Lesson 1
+
+## Frontend, Browser, HTML, CSS
+
+---
+
+# Frontend
+
+- "Visible" part of the web application
+- Part that the end user sees and interacts with
+- Runs in Web browser
+
+---
+
+# Server - Client Architecture
+
+import serverClient from './images/serverClient.png'
+
+<img className="big-image" src={serverClient} />
+
+<Notes>
+
+- Server programming is also called backend
+- Client programming (for Web Clients) is called frontend
+
+</Notes>
+
+---
+
+# Browser
+
+- Navigate web and _display_ web applications
+- (e.g. 😀 Chrome, 🙂 Firefox, 🙂 Edge, 😐 Safari, 😥 Explorer, 😭 Opera Mini)
+
+<Notes>
+
+- [Market share (February 2020)](https://gs.statcounter.com/browser-market-share): Chrome - 64.5%, Safari - 17.6%, Firefox - 4.6%
+- Display is generic term to encapsulate more complex browser phases (next slide)
+
+</Notes>
