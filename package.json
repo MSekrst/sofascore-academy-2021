@@ -1,0 +1,28 @@
+{
+  "name": "sofascore-academy-2021",
+  "version": "1.0.0",
+  "description": "Repository for SofaScore Frontend Academy 2021. materials.",
+  "main": "index.js",
+  "scripts": {
+    "start:01": "mdx-deck lessons/01.mdx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MSekrst/sofascore-academy-2021.git"
+  },
+  "keywords": [
+    "Frontend",
+    "JavaScript",
+    "React.js",
+    "HTML",
+    "CSS",
+    "Node.js",
+    "MDX"
+  ],
+  "author": "MSekrst",
+  "license": "ISC",
+  "homepage": "https://github.com/MSekrst/sofascore-academy-2021#readme",
+  "dependencies": {
+    "mdx-deck": "^4.1.1"
+  }
+}
