@@ -1,25 +1,25 @@
 .container {
-  /* display: flex; */
+  display: flex;
   /* border: 1px solid black; */
   /* width: 350px; */
 
   /* flex-wrap - defines if children should be broken into multiple rows when not enough space */
   /* Default -> don't allow wrapping in multiple rows - try to shrink children to fit */
-  /* flex-wrap: nowrap; */
+  flex-wrap: nowrap;
   /* allow wrapping in multiple rows */
   /* flex-wrap: wrap; */
 
   /* flex-direction - defines main axis */
   /* Default -> flex axis is horizontal */
-  /* flex-direction: row */
+  flex-direction: row;
   /* flex axis is vertical */
-  /* flex-direction: column */
+  /* flex-direction: column; */
   /* flex axis is horizontal, children are reversed */
-  /* flex-direction: row-reverse */
+  /* flex-direction: row-reverse; */
 
   /* align-items - defines arrangement of children on axis */
   /* Default -> items are aligned to the start of the parent container */
-  /* align-items: flex-start; */
+  align-items: flex-start;
   /* items are aligned to the end of the parent container */
   /* align-items: flex-end; */
   /* items are centered on axis */
