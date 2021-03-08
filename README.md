@@ -32,7 +32,19 @@ Yarn is NPM alternative.
 
 Notes can be accessed with shortcuts found [here](https://github.com/jxnblk/mdx-deck#presenter-mode).
 
-Start first presentation bt running one of the following scripts.
+First you need to get external dependencies by running following scripts.
+
+```zsh
+npm install
+```
+
+or
+
+```zsh
+yarn
+```
+
+Start first presentation by running one of the following scripts.
 
 ```zsh
 npm run start:01
