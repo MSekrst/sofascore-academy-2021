@@ -1,4 +1,4 @@
-# SofaScore Frontend Academy 2020.
+# SofaScore Frontend Academy 2021.
 
 Repository for SofaScore Frontend Academy 2021. materials.
 
