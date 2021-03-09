@@ -9,6 +9,8 @@ Slides and code for each lesson will be available in separate branches and will 
 Lessons available online:
 
 [1. HTML, CSS](https://sofascore-academy-2021-git-lesson-01-msekrst.vercel.app/#0)
+[2. JavaScript - Language](https://sofascore-academy-2021-git-lesson-2-msekrst.vercel.app/#0)
+
 ## Getting Started
 
 1. Install [git](https://git-scm.com/downloads)

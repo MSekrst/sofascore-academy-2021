@@ -6,8 +6,10 @@
   "scripts": {
     "start:01": "mdx-deck lessons/01.mdx",
     "build:01": "mdx-deck build lessons/01.mdx",
-    "start": "npm run start:01",
-    "build": "npm run build:01"
+    "start:02": "mdx-deck lessons/02.mdx",
+    "build:02": "mdx-deck build lessons/02.mdx",
+    "start": "npm run start:02",
+    "build": "npm run build:02"
   },
   "repository": {
     "type": "git",
