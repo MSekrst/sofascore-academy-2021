@@ -271,8 +271,8 @@ doAsyncWork(() => {
 
 - Developer friendly way to handle promises
 - Asynchronous functions can be declared with the `async` keyword
-  - `async` means that some functions **can** be run asynchronously
-- `await` keyword pauses the execution of the `async` function until the promise is resolved
+  - `async` functions always return promises
+- `await` keyword pauses the execution of the `async` function until the promise is fulfilled
   - Can be only used inside the `async` declared function
   - Doesn't block non-related code execution
   - Should be wrapped in a `try-catch` block
@@ -358,14 +358,13 @@ Show event listeners
 
 # Fetching data
 
-- Historically XMLHttpRequest (XHR)
-- Today `Fetch WebAPI`
-- `fetch` function (from `window` top level object)
-- Fetch return promise
+- Part of the `WebAPIs`
+- `fetch` function (from `window`)
+- Fetch has promise based API -> returns promise
 
 <Notes>
 
-- XHR -> defined by Microsoft in the 90s, the developer has to manually handle fetching state
+- Historically XMLHttpRequest (XHR) -> defined by Microsoft in the 90s, the developer has to manually handle fetching state
 - Modern `fetch` is introduced to make life easier for developers
 - `fetch` is not supported in Node.js
 - [Fetch docs](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
@@ -378,6 +377,6 @@ Show event listeners
 
 # Example - Fetch
 
-Show debugger & Network tab
+Network tab
 
 </Invert>
