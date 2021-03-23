@@ -53,13 +53,11 @@ export class Counter extends React.Component {
           -
         </Button>
 
-        <div> {counter}&nbsp;</div>
+        <div style={{ minWidth: 80, textAlign: 'center' }}>{counter}</div>
 
         <Button isActive={lastClicked === 'increment'} value={1} name="increment" onClick={this.updateCounter}>
           +
         </Button>
-
-        {/* Can we write those buttons better 🤔 */}
       </div>
     )
   }
