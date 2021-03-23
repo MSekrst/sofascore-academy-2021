@@ -16,6 +16,7 @@ export class List extends React.Component {
       <div>
         <h3>
           {words.map((word, index) => (
+            // key attribute is a must when returning array
             <span key={`${word}-${index}`} style={{ marginLeft: 8 }}>
               {word}
             </span>

@@ -7,6 +7,7 @@ import React from 'react'
  * Functional components are function of props. They return JSX markup.
  */
 export function CounterHooks(props) {
+  // this is useState hook
   const [counter, setCounter] = React.useState(0)
 
   return (

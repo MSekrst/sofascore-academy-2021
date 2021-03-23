@@ -15,8 +15,8 @@ export class Clock extends React.Component {
 
     this.setState({ date: new Date() })
   }
-  // set interval
 
+  // set interval
   componentDidMount() {
     this.timerId = setInterval(this.updateDate, 1000)
   }
