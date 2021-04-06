@@ -12,8 +12,10 @@
     "build:03": "mdx-deck build lessons/03.mdx",
     "start:04": "mdx-deck lessons/04.mdx",
     "build:04": "mdx-deck build lessons/04.mdx",
-    "start": "npm run start:04",
-    "build": "npm run build:04"
+    "start:05": "mdx-deck lessons/05.mdx",
+    "build:05": "mdx-deck build lessons/05.mdx",
+    "start": "npm run start:05",
+    "build": "npm run build:05"
   },
   "repository": {
     "type": "git",
