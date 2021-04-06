@@ -1,0 +1,302 @@
+import { themes, Head, Footer, Header, Steps, Notes, Invert } from 'mdx-deck'
+import './styles.css'
+
+export const theme = { ...themes.highlight }
+
+<!-- general markup for all slides -->
+
+<Head>
+  <title>SofaScore Academy 5</title>
+</Head>
+<Header>
+  <div className="tC m8">SofaScore Academy 2021.</div>
+</Header>
+<Footer>
+  <div className="tR m8">Lesson 5 - React.js - Hooks</div>
+</Footer>
+
+<!-- Slides -->
+
+# Lesson 5
+
+## React.js - Hooks
+
+---
+
+# Functional Programming
+
+- Computation is the evaluation of functions
+- Immutable data
+- Pure functions
+- No side effects
+- High order functions - take other functions as arguments
+- Benefits:
+  - Reduced complexity
+  - Testability
+
+<Notes>
+
+- In FP everything should be expressed as a function.
+- Immutable data -> Program data cannot be mutated in any way and there are no state changes. JavaScrpt has `Object.freeze` method and various libraries (e.g. `immutable.js`)
+- **Pure Function** - function that always returns the same output for the same input.
+  The function is pure if it depends only on function arguments, which are not mutated in any way (read-only).
+  A pure function has no side effects and can be replaced with its output.
+- Side Effects - changes in the system caused by some function (memory, network, I/O). Side effects are fetch requests, file system interactions, variable mutations, ...
+- Reduced complexity - functions are easier to understand as they are more predictable
+- Testability - pure functions are easily unit tested, just test input-output pairs (as they should always be the same)
+
+</Notes>
+
+---
+
+# Pure Function - Example
+
+```js
+function circleCircumference(radius) {
+  return radius * Math.PI
+}
+
+function circleCircumferencePure(radius, PI) {
+  return radius * PI
+}
+
+circleCircumferencePure(5, Math.PI)
+```
+
+<Notes>
+
+- Common mistake is the usage of language constants, they influence input, so they must be passed as an argument.
+
+</Notes>
+
+---
+
+# React Hooks
+
+- Extend capabilities of functional components
+  - Add class component possibilities
+- Can add state, side effects, memoization
+- Rules:
+  - The always same number of hooks
+  - Only in the top level of functional component
+  - Dependency array
+- Prefixed with `use*`
+- Component can have multiple hooks of the same type
+
+<Notes>
+
+- Allow functional components to replace class components, as class components could be deprecated in later versions of React.
+- Hooks enforce some rules:
+  - Component should always have the same number of hooks across (re)renders. Developers shouldn't add hooks conditionally or return before all hooks were called.
+  - Hooks can only be specified in the top level of the functional component. Developers should add hooks only in the main component block. Hooks cannot be added in `if` or any other block (`for`, `switch`)
+  - All hooks have a dependency array (except the `useState` hook which runs on every state change). Dependency array determines when should hook rerun.
+    If a variable in the dependency array changes, the hook will rerun, if an empty dependency array is provided, the hook will never rerun.
+- Multiple hooks of the same type can be used to enable developers to write SRP compatible functions and provide different dependency arrays for different hooks of the same type.
+
+</Notes>
+
+---
+
+# `useState`
+
+- Adds state to functional component
+- Whole state must be always set
+  - Provide whole next state not only changes
+- No dependency array
+  - Has explicit setter for state change
+- **`const [state, setState] = React.useState(initialState)`**
+
+<Notes>
+
+- Encapsulate state in functional components
+- Difference with `setState`: `setState` will merge new state with existing state, so developers can provide only changes.
+  Hook setter won't merge provided the new state with existing state, new state will be anything developer provides to the setter.
+
+</Notes>
+
+---
+
+import { UseState } from './05-files/UseState'
+
+<Invert>
+
+# `useState` - Example
+
+`const [count, setCount] = React.useState(0)`
+
+<UseState />
+
+</Invert>
+
+---
+
+# `useEffect`
+
+- Perform side effects in functional components
+- Run some code on component update
+- Can return function (Cleanup function)
+  - Cleanup will be called when component is unmounted
+  - Cleanup will be called before next rerun
+- `componentDidMount`, `componentDidUpdate`, `componentWillUnmount` in one
+- `useEffect(() => { /* do something */ }, [/* dependency array */])`
+
+<Notes>
+
+- Side effects are effects observed from outside of a function (fetch request, event listeners, timers).
+- `useEffect` is used to make side effects on each update (or when variables in dependency array change).
+- Effect function can return the cleanup function, which is called on unmount or before the next rerun.
+  The cleanup function is useful when developers have to remove event listeners, clear timers, etc.
+  If cleanup wouldn't be called before rerun, listeners or timers would be duplicated, so before the next rerun, cleanup is called to remove previous listeners or timers.
+
+</Notes>
+
+---
+
+import { UseEffect } from './05-files/UseEffect'
+
+<Invert>
+
+# `useEffect` - Example
+
+<UseEffect />
+
+</Invert>
+
+---
+
+# `useMemo`
+
+- Used to memoize **value** of some operation
+- Memoize expensive operations
+- No side effects allowed
+- No guarantees that function will not rerun with same input
+- `const memoizedValue = useMemo(() => computeSomething(a, b), [a, b]);`
+
+<Notes>
+
+- Memoize return value for input argument, useful for expensive operations and calculations.
+- Shouldn't perform side effects -> if side effects are needed, use `useEffect`
+- Can't guarantee that memoized value won't be removed from memory and recalculated.
+
+</Notes>
+
+---
+
+import { UseMemo } from './05-files/UseMemo'
+
+<Invert>
+
+# `useMemo` - Example
+
+<UseMemo />
+
+</Invert>
+
+---
+
+# `useCallback`
+
+- Used to memoize function (Not function result)
+- Memoize handlers passed as props to avoid reference changes to handlers
+- `const callback = useCallback(() => { /* do something */ }, [ /* dependencies */ ])`
+- `useCallback(fn, deps)` is equivalent to `useMemo(() => fn, deps)`
+
+<Notes>
+
+- Memoizes function without executing it, while `useMemo` executes function and memoizes value.
+- Used to memoize handlers to avoid new handler reference on each render -> causes unnecessary re-renders where the handler is passed as a prop
+- `useCallback` can be written as `useMemo` where a function returns memoized handler.
+
+</Notes>
+
+---
+
+import { UseCallback } from './05-files/UseCallback'
+
+<Invert>
+
+# `useCallback` - Example
+
+<UseCallback />
+
+</Invert>
+
+---
+
+# React Refs
+
+- React is declerative and abstracts DOM manipulations
+- Refs are used to get reference on the underlying DOM element
+  - Access DOM element properties (e.g. height, position, ...)
+- Returns object with `current` key set to DOM object or `null`
+- `useRef` hook - `const ref = userRef(null)`
+- `createRef` method - `this.ref = createRef(null)`
+- Refs are also used to store data which should not trigger re-renders
+
+<Notes>
+
+- React is declarative, it abstracts DOM elements and manipulations. Sometimes developers need access to underlying DOM elements.
+- React Refs allows access to underlying DOM elements. Access to those elements allows developers to get element height, position, to add DOM attributes, ...
+- Refs can be used in class components and functional components via the `useRef` hook.
+- Ref will be returned in the object as `current` property. `current` property is a reference to DOM element or null if the element is not set.
+- Refs can be used inside class components (`createRef`) or inside functional components (useRef`) hook.
+- Refs are commonly used with generic base components (input, button).
+- Refs are also used to store mutable data which should not trigger re-renders -> the same as the instance fields in classes
+
+</Notes>
+
+---
+
+import { Refs } from './05-files/Refs'
+
+<Invert>
+
+# React Refs - Example
+
+<Refs />
+
+</Invert>
+
+---
+
+# React Context
+
+- Share data between components in sub tree
+  - Data is passed from `Provider` to multiple `Consumers`
+- Consumers receive providers value
+  - When Provider value changes, its consumers will rerender
+- Avoids prop drilling
+- Works with class and functional components (via hook)
+- `const MyContext = React.createContext(defaultContextValue)`
+- `const value = useContext(MyContext)`
+
+<Notes>
+
+- Prop drilling - In React data is passed top-down via props.
+  Prop drilling is anti-pattern when some components receive props they don't need and pass them to their children components and patterns repeats deeper into the tree.
+- React Context allows developers to share data between a parent and multiple children. The parent is called `Provider` as it provides value for children.
+  The child is called `Consumer` as it consumes provided data.
+- Rules:
+  - Provider has to be rendered above children (it has to be the parent to children)
+  - Consumer will receive data from the nearest Provider of the same type (if multiple rendered).
+  - When Provider value changes, all its Consumers will rerender, to get new value.
+- Context works with both class and functional components. To be more specific context can be consumed in class and functional components.
+- Context is created with `createContext` function. The function receives an optional defaultValue which will be used as the initial context value.
+  The context contains two components (that are used from the outside):
+  - Provider (`MyContext.Provider`)
+  - Consumer (`MyContext.Consumer`)
+- Contexts are usually added to separate files and they export `Context` itself, `Provider`, and `Consumer` components.
+
+</Notes>
+
+---
+
+import { ThemedApp } from './05-files/Context'
+
+<Invert>
+
+# React Context - Example
+
+<ThemedApp />
+
+</Invert>
