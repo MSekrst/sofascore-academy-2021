@@ -1,14 +1,34 @@
 import React from 'react'
 
-// delay is only dependency in dependency array -> run effect when delay changes
+export function UseEffect() {
+  const [date, setDate] = React.useState(new Date())
+  const [delay, setDelay] = React.useState(1000)
 
-// effect will run every time dependency array changes
+  // effect will run every time dependency array changes
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setDate(new Date())
+    }, delay)
 
-// return cleanup function which clears interval
+    // return cleanup function which clears interval
+    return () => {
+      clearInterval(interval)
+    }
+    // delay is only dependency in dependency array -> run effect when delay changes
+  }, [delay])
 
-// TODO: hook
+  return (
+    <div>
+      <p>{date.toLocaleTimeString()}</p>
+      <p>
+        Refresh rate: {delay / 1000}s <button onClick={() => setDelay(delay + 1000)}>ADD 1s</button>
+        <button onClick={() => setDelay(delay - 1000)}>REMOVE 1s</button>
+      </p>
+    </div>
+  )
+}
 
-export class UseEffect extends React.Component {
+export class UseEffectClass extends React.Component {
   constructor(props) {
     super(props)
 
