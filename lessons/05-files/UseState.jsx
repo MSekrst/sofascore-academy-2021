@@ -1,10 +1,18 @@
 import React from 'react'
 
-// create state variable count with setter, 0 is initial state (can be omitted to use `undefined`)
+export function UseState() {
+  // create state variable count with setter, 0 is initial state (can be omitted to use `undefined`)
+  const [counter, setCount] = React.useState(0)
 
-// TODO: hook
+  return (
+    <div>
+      <p>Count: {counter}</p>
+      <button onClick={() => setCount(counter + 1)}>ADD ONE</button>
+    </div>
+  )
+}
 
-export class UseState extends React.Component {
+export class UseStateClass extends React.Component {
   constructor(props) {
     super(props)
 
