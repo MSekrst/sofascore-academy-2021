@@ -18,7 +18,13 @@ export function Refs() {
   // can we recalculate heigh when it changes 🤔
   React.useEffect(() => {
     getHeight()
-  }, [])
+
+    window.addEventListener('resize', getHeight)
+
+    return () => {
+      window.removeEventListener('resize', getHeight)
+    }
+  }, [getHeight])
 
   return (
     <div>
