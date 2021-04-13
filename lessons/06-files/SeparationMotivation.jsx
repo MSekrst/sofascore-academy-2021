@@ -1,7 +1,7 @@
 import React from 'react'
 
 function getIsMobile(width) {
-  return width < 450
+  return width < 650
 }
 
 // Calculates if isMobile
