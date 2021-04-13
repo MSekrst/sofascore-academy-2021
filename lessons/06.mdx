@@ -1,0 +1,395 @@
+import { themes, Head, Footer, Header, Steps, Notes, Invert } from 'mdx-deck'
+import './styles.css'
+
+export const theme = { ...themes.highlight }
+
+<!-- general markup for all slides -->
+
+<Head>
+  <title>SofaScore Academy 6</title>
+</Head>
+<Header>
+  <div className="tC m8">SofaScore Academy 2021.</div>
+</Header>
+<Footer>
+  <div className="tR m8">Lesson 6 - React.js - Advanced Patterns</div>
+</Footer>
+
+<!-- Slides -->
+
+# Lesson 6
+
+## React.js - Advanced Patterns
+
+---
+
+# React Performance
+
+- Browser DOM is slow and inconsistent
+- Reuse DOM
+- SyntheticEvent
+  - Browser universal event wrapper
+  - Pooled
+  - Reused
+
+<Notes>
+
+- DOM is slow because it is a large data structure(tree) that has to be modified and traversed.
+  Removing elements and inserting new ones is a costly operation because all children have to be removed and inserted again.
+  DOM implementations can be different between multiple browser vendors (inconsistent returns, method names, ...)
+- React will try to reuse as much DOM as possible (remove and add only necessary elements, minimize DOM navigation, reuse existing elements, ...).
+- SyntheticEvent - All DOM events in React are wrapped in the SyntheticEvent wrapper. SyntheticEvent has all properties of native browser event (`target`, `currentTarget`, `stopPropagation`, `preventDefault`, ...).
+  SyntheticEvent guarantees the same event structure in all browsers and takes care of inconsistencies between them.
+  SyntheticEvent is event agnostic (works with any event) and it can be pooled and reused for any event.
+  React has pools of SyntheticEvents to avoid event creation, which makes runtime performant,
+  but developers have to be careful not to reference SyntheticEvent properties directly, or perform async work on event instance because, after event lifetime, the event will return to the pool and its properties will be reset to null.
+
+</Notes>
+
+---
+
+import { EventPooling } from './06-files/EventPooling'
+
+<Invert>
+
+# Event Pooling - Example
+
+<EventPooling />
+
+</Invert>
+
+---
+
+# Virtual DOM
+
+- Virtual representation of a UI in the memory
+- Abstracts DOM manipulations, event handling
+- Synced with real DOM -> **reconciliation** process
+
+<Notes>
+
+- React will make all changes and calculations on the efficient Virtual DOM. Once Virtual DOM is finished, React will calculate the difference with the real DOM to find a minimal set of changes needed.
+- Virtual DOM is responsible for all DOM manipulations. It will also communicate DOM changes to the browser. All Virtual DOM tasks are performed under the hood by `reactDOM` library.
+  `reactDOM` is the connection between `react` and browser (`react` is platform-agnostic, it will work in the browser, on mobile phones, on servers, anywhere where JS would work).
+  Target platform is determined by wrapper library (`reactDOM` -> browser, server; `react-native` -> Mobile Apps)
+- Reconciliation - process of syncing virtual and real DOM.
+
+</Notes>
+
+---
+
+# Reconciliation algorithm
+
+- Process of syncing Virtual and real DOM
+- Assumptions:
+  - Two elements of a different type will produce different trees.
+    - Don't change element types when not needed
+  - Developer can hint at which child elements are stable across renders (`key` prop)
+- Determines component lifecycle (update, mount, unmount)
+
+<Notes>
+
+- Assumptions: If we change element type (div -> span) tree will be different and it should be replaced (remove old, insert new tree).
+  Don't change element type if not necessary.
+  Use the `key` prop to mark stable elements. Stable elements can be reused if the `key` stays the same.
+  Don't change keys if not necessary and don't switch keys between two elements (especially of the same type, e.g. `div` ).
+- If element rerenders -> update lifecycle will be called (`getDerivedStateFromProps`, `render`, `componentDidUpdate`), state is preserved.
+- If element is removed and inserted -> unmount and mount lifecycles will be called (`componentWillUnmount`, `constructor`, `getDerivedStateFromProps`, `render`, `componentDidMount`), state is not preserved.
+- [Reconciliation in details](https://reactjs.org/docs/reconciliation.html)
+
+</Notes>
+
+---
+
+# Performance - Developers
+
+- Minimize expensive DOM operations -> follow reconciliation rules
+- **Minimize number of unnecessary rerenders**
+- When will rerender happen:
+  - Prop change - (prop value or reference)
+  - State change
+  - Context change
+  - `this.forceUpdate()`
+  - When parent rerenders
+
+<Notes>
+
+- Avoid unnecessary expensive DOM operations (replacing elements).
+- Rerenders can be slow (big lists, lot of elements, ...) and cause UX problems (flickering, mistimed animations, ...).
+  React will try its best to preserve DOM structure, so rerenders could be cheap (if there are no DOM changes).
+  Developers should know when components should rerender and how to avoid unnecessary re-renders.
+  The component will rerender if:
+  1. Props change -> Props with new value should rerender, props with new reference could avoid rerendering (if object reference changes, the object can still have same properties -> no need to rerender, use `useMemo` and `useCallback`).
+     Just be cautious when diffing, as diff process can take longer than rerender.
+  2. State change -> Few valid use-cases when state change doesn't need rerender. If state change doesn't need to rerender it's often a sign of bad state architecture (part of the state should be ordinary variable or a prop)
+  3. Context change -> When context provider value changes, all consumers will be updated.
+  4. When `this.forceUpdate()` called -> Used for complex multistep animations (could be replaced with carefully crafted state).
+  5. When parent rerenders -> Common performance problem. When parent rerenders, all their children will also rerender, and those rerenders could be avoided.
+     This problem is solved with component architecture: keep changes as deep in a tree as possible. Rerenders deeper in the tree will trigger fewer rerenders than those up the tree.
+
+</Notes>
+
+---
+
+## Common React Patterns
+
+---
+
+# Controlled components
+
+- Components which are controlled by the parent via props
+  - They receive `value` and `onChange` handler
+- Often used in forms to allow the parent to always know current input values
+
+<Notes>
+
+- Controlled components let their parent update their state. This is useful if the component state is also needed in the parent component (e.g. value of input element in form).
+
+</Notes>
+
+---
+
+<Invert>
+
+# Example - Contolled Input
+
+import { Form } from './06-files/ControlledInput'
+
+<Form />
+
+</Invert>
+
+---
+
+# React Fragment
+
+- Can be used to wrap elements in the single element
+- Won't add top-level element (Fragment) to the DOM
+- Long (`<React.Fragment>`) and short (`<>`) syntax
+  - Short syntax can't have props (even `key`)
+
+<Notes>
+
+- Fragment has no DOM representation and will be omitted from the DOM -> won't effect styles and hierarchies.
+- Fragment is used to s
+- Short syntax is more used, but it can't take props (even `key`) so it should be avoided as top element for list items,
+  where `key` is necessary (use long syntax there).
+
+</Notes>
+
+---
+
+# React Fragment Usage
+
+### Long syntax
+
+```react
+<React.Fragment key="canHaveKey">
+  <h1>HELLO</h1>
+</React.Fragment>
+```
+
+### Short syntax
+
+```react
+<>
+  <h1>HELLO</h1>
+</>
+```
+
+---
+
+# Reusability & Separation
+
+- The same logic can often be reused and separated into a single place
+- Share logic between components
+  - Separate logic and presentation in different places
+  - Insert logic into the component from the other component (or function)
+- React patterns (similar to Decorator Design pattern)
+  - High Order Component
+  - Render Props
+  - Custom hooks
+
+<Notes>
+
+- Separation of concerns is an important principle in software development
+- React allows us to insert logic into component via common React patterns (which are similar to the Decorator design pattern):
+  - Hight Order Components(HOC)
+  - Render Props
+  - Custom hooks
+- Decorator pattern is called that because it decorates some component with logic or behavior from the outside
+
+</Notes>
+
+---
+
+import { BloatedText } from './06-files/SeparationMotivation'
+
+<Invert>
+
+# Motivation - Example
+
+- Separate mobile devices from desktops
+
+<BloatedText color="orange" />
+
+</Invert>
+
+---
+
+# High Order Component
+
+- Function which receives component as an argument
+- Returns new component which renders provided component with extra props
+  - Function that wraps provided component into a new component with the desired logic
+- Provided component must not be mutated
+- Passes handler or value to the component via props
+  - Problem when the passed prop is already in use by component (in `props`)
+- Usually starts with `with*`
+
+```react
+const ComponentWithBehaviour = withBehaviour(Component => {
+  // props for Component provided
+  return function(props) {
+    const behaviour /* value or function added to component */
+
+    return <Component behaviour={behaviour} {...props} />
+  }
+})
+```
+
+<Notes>
+
+- Function that wraps provided component into new component with desired logic.
+- Component should not be mutated, it can only be decorated with new props.
+- Note how `props` are spread on component provided. In props are own props for provided component.
+  This is place where problems can happen if decorated prop has same name as some prop on component, as decorated prop would be overridden.
+- HOC usualy have `with` prefix
+- HOC are used in some popular libraries (`withRouter` in `react-router`)
+
+</Notes>
+
+---
+
+import { TextWithIsMobile } from './06-files/HOC'
+
+<Invert>
+
+# High Order Component - Example
+
+<TextWithIsMobile color="red" />
+
+</Invert>
+
+---
+
+# Render Prop
+
+- Component without conventional render function
+  - Receives render function as a prop
+- Component with logic and without presentation
+  - Calls provided render function with enhancements as arguments
+- Render is often passed as `children` or as `render` prop
+
+```react
+// decorated component
+function Component(props) {
+  return <RenderPropComponent
+    render={enhancements => /* do something with enhancements */}
+  />
+})
+```
+
+<Notes>
+
+- Component with render method as a prop (render method is provided via `children` or `render` prop)
+- More declarative usage than HOC, as it is used inside the component that is decorated, so prop name collision is not possible.
+- Can substitute HOC and vice versa.
+- Render Prop is used in some popular libraries (`render` prop in `react-router`, or `Downshift` in `downshift`)
+
+</Notes>
+
+---
+
+import { Text } from './06-files/RenderProp'
+
+<Invert>
+
+# Render Prop - Example
+
+<TextWithIsMobile color="green" />
+
+</Invert>
+
+---
+
+# Custom Hook
+
+- Function that is called inside functional components
+  - Returns enhancements that will be used in functional components
+- Uses other React Hooks (`useState`, `useEffect`, `useCallback` ...)
+
+```react
+// decorated component
+function Component(props) {
+  const enhancements = useCustomHook()
+
+  return /* do something with enhancements */}
+})
+```
+
+<Notes>
+
+- Ordinary function that returns some enhancements and decorates component which called it
+- Cleaner syntax, easier to understand
+
+</Notes>
+
+---
+
+import { TextCustomHook } from './06-files/CustomHook'
+
+<Invert>
+
+# Custom hooks - Example
+
+<TextCustomHook color="blue" />
+
+</Invert>
+
+---
+
+# React Portal
+
+- Render children outside of DOM hierarchy
+  - Used with modals, dialogs, notifications
+- Commonly used with Singleton pattern
+- ReactDOM specific
+- `ReactDOM.createPortal(child, container)`
+- Event propagation and Context work as if it is still in the hierarchy
+
+<Notes>
+
+- Sometimes there is a use case to add some markup or component outside the DOM hierarchy.
+  Those use cases often include modals, dialogs, app-level notifications and errors.
+  It is used for components that pop out of layout (to avoid complex z-indexes)
+- Singleton pattern is common as apps usually have only one element over others.
+- Portal is in the `reactDOM` package, so it can be used only for web applications.
+- `ReactDOM.createPortal(child, container)` will render child (any viable child) into provided **DOM container**.
+- Markup will be in container element but event propagation and context will behave based on hierarchy.
+  For example, an event triggered in modal will propagate to the component that rendered Portal.
+  The same rule applies to context, modal could consume providers that it could consume if it wasn't portal.
+
+</Notes>
+
+---
+
+import { TopLevelPortal } from './06-files/Portal'
+
+<Invert>
+
+# React Portal - Example
+
+<TopLevelPortal />
+
+</Invert>
