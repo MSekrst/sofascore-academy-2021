@@ -22,20 +22,20 @@ export function TopLevelPortal() {
  * With CRA this would be App.js
  */
 function App() {
-  const [isModalVisible, setIsModalVisible] = React.useState(false)
+  const [isToastVisible, setIsToastVisible] = React.useState(false)
 
   const onButtonClick = React.useCallback(() => {
-    setIsModalVisible(!isModalVisible)
-  }, [isModalVisible])
+    setIsToastVisible(prev => !prev)
+  }, [])
 
   return (
     <div>
       <h1>Welcome to the Portal app</h1>
-      <button onClick={onButtonClick}>Toggle Modal</button>
-      {isModalVisible && (
+      <button onClick={onButtonClick}>Toggle Toast</button>
+      {isToastVisible && (
         <Toast>
           <div style={{ display: 'flex', border: '1px solid tomato' }}>
-            <h4>I am the Modal</h4>
+            <h4>I am the Toast</h4>
             <button style={{ marginLeft: 4 }} onClick={onButtonClick}>
               X
             </button>
