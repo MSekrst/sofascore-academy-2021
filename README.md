@@ -20,6 +20,8 @@ Lessons available online:
 
 [6. React.js - Advanced](https://sofascore-academy-2021-git-lesson-6-msekrst.vercel.app/#0)
 
+[7. Routing](https://sofascore-academy-2021-git-lesson-7-msekrst.vercel.app/#0)
+
 ## Getting Started
 
 1. Install [git](https://git-scm.com/downloads)
