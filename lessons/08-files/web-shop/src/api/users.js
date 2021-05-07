@@ -14,7 +14,8 @@ export function login(username, password) {
 
   return new Promise((resolve, reject) => {
     if (isValidLogin) {
-      return resolve({ isLoggedIn: true, role: username })
+      // call resolve with role -> role is equal to username!
+      return resolve(username)
     }
 
     return reject(Error('Invalid credentials!'))
