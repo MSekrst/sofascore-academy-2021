@@ -4,12 +4,24 @@ The final academy project will be a smaller SofaScore application. We will utili
 
 Further in this document:
 
+- [Project checkpoints](#checkpoints)
 - [Basic domain introduction](#domain)
 - [User stories](#user-stories)
 - [Project technologies](#technologies)
 - [Project structure tips](#project-structure)
 - [API description](#api)
 - [Deployment instructions](#deployment)
+
+## Checkpoints
+
+**The project should be finished by 6.6.2021. (Sunday).**
+
+There will be one mandatory checkpoint and two optional ones:
+
+- Mandatory checkpoint will be in the week between 24.5. and 28.5.
+- Optional checkpoints will be every week - contact me on Slack when you've added something new and we will discuss it on call.
+
+Use checkpoints to get feedback, ask about difficulties with the domain, API, design, or development. Checkpoint calls could save you a lot of time.
 
 ## Domain
 
