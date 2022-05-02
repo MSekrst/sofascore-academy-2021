@@ -1,0 +1,23 @@
+.button {
+  text-transform: uppercase;
+  color: white;
+  background-color: rgb(101, 142, 245);
+  font-size: 18px;
+  font-weight: 500;
+  padding: 8px 24px;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  line-height: 1.15;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  background-color: rgb(78, 84, 100);
+}
+
+.button:active {
+  background-color: rgb(83, 130, 248);
+}
